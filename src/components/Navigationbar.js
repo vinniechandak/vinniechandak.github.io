@@ -51,7 +51,7 @@ const Navigationbar = ({ isVisible, setIsVisible }) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="nav navbar-nav ml-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="#">
+							<a className="nav-link" href="/">
                 Vinod Chandak
               </a>
             </li>
