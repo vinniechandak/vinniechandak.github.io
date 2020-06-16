@@ -24,7 +24,6 @@ const skills = {
   "Apache Spark": 90,
   "Spring MVC": 85,
   "Spring Boot": 75,
-  "Spring Security": 80,
   Hibernate: 85,
   JQuery: 85,
   "Jasper Reports": 80,
@@ -42,7 +41,7 @@ const skills = {
   Eclipse: 85,
   IntelliJIDEA: 90,
   VSCode: 95,
-  "CDH (Cloudera Hadoop Distribution)": 75,
+  Cloudera: 75,
   Docker: 75,
 }
 
