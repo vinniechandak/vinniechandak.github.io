@@ -81,7 +81,9 @@ const socialMedias = {
 
 const Sidebar = ({ isVisible }) => {
   return (
-    <Nav id="sidebar" isVisible={isVisible}>
+		<Nav id="sidebar" 
+			className={isVisible ? "active" : ""}
+ 			isVisible={isVisible}>
       <SidebarHeader>
         <Title>Vinod Chandak</Title>
       </SidebarHeader>
