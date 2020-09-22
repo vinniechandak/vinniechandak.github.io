@@ -1,2 +1,2 @@
-# resume-v1
-A react based portfolio
+# vinniechandak.github.io
+A React based portfolio
