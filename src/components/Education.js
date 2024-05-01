@@ -12,12 +12,24 @@ const educationDetails = {
 	icon: "graduation-cap"
 }
 
+const certificationDetails = {
+  name: "AWS Solutions Architect",
+	title: "AWS Solutions Architect - Associate",
+	start: 2022,
+	end: 2025,
+	summary: "https://aws.amazon.com/certification/",
+	icon: "graduation-cap"
+}
+
 const Education = () => {
   return (
     <ContentContainer id="education">
-      <Title>Education</Title>
+      <Title>Education & Certifications</Title>
       <Wrapper>
 				<Card cardDetails={educationDetails} />
+      </Wrapper>      
+      <Wrapper>
+				<Card cardDetails={certificationDetails} />
       </Wrapper>
     </ContentContainer>
   )
