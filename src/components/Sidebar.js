@@ -67,7 +67,7 @@ const SocialAnchor = styled.a`
 const menuItems = {
   home: "Home",
   about: "About",
-  education: "Education",
+  education: "Education & Certifications",
   skills: "Skills",
   experience: "Experience",
   contact: "Contact",
