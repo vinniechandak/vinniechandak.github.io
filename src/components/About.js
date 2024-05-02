@@ -12,11 +12,11 @@ const About = () => {
       <Wrapper>
         <Text>Hi!, I am Vinod Chandak.</Text>
         <Text>
-          Currently I am working as a Senior Software Engineer at Canvass
-          Analytics.
+          Currently I am working as a Lead Software Engineer at Nasdaq 
+          Inc.
         </Text>
         <Text>
-          I hold around 8 years of experience in the field of Computer Science
+          I hold around 12 years of experience in the field of Computer Science
           and Engineering.
         </Text>
         <Text>

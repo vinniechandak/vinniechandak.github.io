@@ -5,11 +5,19 @@ import { Timeline } from "./Timeline"
 
 const companyDetails = [
   {
+    name: "Nasdaq Inc",
+    title: "Lead Software Engineer",
+    summary: "As a Lead Sofware Engineer, responsible for Designing, Developing & Maintaining data lake applications and mentoring junior team members",
+    start: "Sept 2021",
+		end: "till Now",
+		icon: "briefcase",
+  },
+  {
     name: "Canvass Analytics",
     title: "Sr. Software Engineer",
     summary: "As a Senior Engineer, responsible for on-boarding and curating data from different data sources to make them ready for ML algorithms",
     start: "Jul 2019",
-		end: "till Now",
+		end: "Jul 2021",
 		icon: "briefcase",
   },
   {

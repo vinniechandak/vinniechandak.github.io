@@ -29,11 +29,11 @@ const Contact = () => {
       <Title>Contact Me</Title>
       <Wrapper>
         <Row>
-          <div className="col-sm-6">
+          <div className="col-sm-12">
             <ul className="list-unstyled text-center">
               <li>
                 <IconImage className="fa fa-map-marker fa-3x"></IconImage>
-                <IconText>Toronto, ON M1B5Y7, CA</IconText>
+                <IconText>Toronto, ON CA</IconText>
               </li>
 
               <li>
@@ -47,21 +47,6 @@ const Contact = () => {
               </li>
             </ul>
           </div>
-          <Form className="col-sm-6">
-            <Form.Group controlId="formBasicName">
-              <Form.Control type="text" placeholder="Enter Name" />
-            </Form.Group>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Control type="email" placeholder="Enter Email" />
-            </Form.Group>
-            <Form.Group controlId="formBasicSubject">
-              <Form.Control type="text" placeholder="Enter Subject" />
-            </Form.Group>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Control as="textarea" rows="3" placeholder="Your Message" />
-            </Form.Group>
-            <Button type="submit">Submit</Button>
-          </Form>
         </Row>
       </Wrapper>
     </ContentContainer>
