@@ -1,19 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import { Form, Button as BootstrapButton, Row } from "react-bootstrap"
+import { Row } from "react-bootstrap"
 import { ContentContainer, Wrapper } from "./ContentContainers"
 import { Title } from "./Title"
-
-const Button = styled(BootstrapButton)`
-  color: ${props => props.theme.colours.sidebar.text};
-  background-color: ${props => props.theme.colours.sidebar.background};
-	border-color: ${props => props.theme.colours.sidebar.background};
-	&:hover {
-		color: ${props => props.theme.colours.sidebar.background};
-		background-color: ${props => props.theme.colours.sidebar.text};
-		border-color: ${props => props.theme.colours.sidebar.background};
-	}
-`
 
 const IconImage = styled.i`
 	color: ${props => props.theme.colours.sidebar.background};
