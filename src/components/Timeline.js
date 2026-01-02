@@ -9,7 +9,7 @@ const TimelineBar = styled.span`
 export const RowLine = ({ noborder }) => {
   return (
     <div className="row h-50">
-      <div className={noborder ? "col" : "col border-right"}>&nbsp;</div>
+      <div className={noborder ? "col" : "col border-end"}>&nbsp;</div>
       <div className="col">&nbsp;</div>
     </div>
   )
