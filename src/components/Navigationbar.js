@@ -49,7 +49,7 @@ const Navigationbar = ({ isVisible, setIsVisible }) => {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="nav navbar-nav ml-auto">
+          <ul className="nav navbar-nav ms-auto">
             <li className="nav-item active">
 							<a className="nav-link" href="/">
                 Vinod Chandak
