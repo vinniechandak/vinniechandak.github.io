@@ -1,6 +1,6 @@
 name: Deploy to GitHub Pages
 
-# Publish the prerendered build to the gh-pages branch on every push to master
+# Publish the site to the gh-pages branch on every push to master
 # (i.e. whenever a PR is merged into master). Can also be run manually.
 on:
   push:
@@ -23,9 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Version comes from the `packageManager` field in package.json
-      # (pnpm@9.15.0) — don't also specify `version` here or action-setup errors
-      # with ERR_PNPM_BAD_PM_VERSION.
+      # Version comes from the `packageManager` field in package.json.
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
@@ -35,26 +33,33 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
 
+      # Use a current, maintained Chrome for prerendering instead of
+      # react-snap's ancient bundled Chromium. This is what makes the
+      # prerender reliable on modern runners.
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          install-dependencies: true
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # react-snap drives a bundled Chromium (via puppeteer) to prerender the
-      # app. On Ubuntu runners Chromium needs a few shared libraries present.
-      - name: Install Chromium system libraries
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
-            libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
-            libgbm1 libasound2 libpango-1.0-0 libcairo2
-
-      # pnpm build runs the `postbuild` react-snap prerender. CI=true makes
-      # CRA treat lint warnings as non-fatal only where configured; it also
-      # keeps the build non-interactive.
-      - name: Build (with prerender)
-        run: pnpm build
+      # The compile MUST succeed — this is the real build.
+      # We skip the `postbuild` hook here so the prerender can't fail it.
+      - name: Build
+        run: pnpm exec react-scripts build
         env:
           CI: "true"
+
+      # Prerender with react-snap, pointed at the Chrome installed above.
+      # Best-effort: if it ever fails, we still publish the (un-prerendered)
+      # build rather than failing the whole deploy.
+      - name: Prerender (best-effort)
+        continue-on-error: true
+        run: pnpm exec react-snap
+        env:
+          PUPPETEER_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
 
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
@@ -62,5 +67,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           publish_branch: gh-pages
-          # GitHub user-page sites serve from the domain root; no CNAME here.
           commit_message: "Deploy: ${{ github.event.head_commit.message }}"
