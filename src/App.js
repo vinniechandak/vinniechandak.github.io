@@ -1,17 +1,22 @@
 import React from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
-import "font-awesome/css/font-awesome.min.css"
-import "./styles/style.css"
 import { ThemeProvider } from "styled-components"
-import theme from "./styles/theme"
+import { themes } from "./styles/theme"
+import GlobalStyle from "./styles/GlobalStyle"
 import AppContainer from "./pages/AppContainer"
+import useThemeMode from "./hooks/useThemeMode"
+import { ReplayProvider } from "./components/ReplayContext"
 
 const App = () => {
+  const { mode, toggle } = useThemeMode()
+
   return (
-    <ThemeProvider theme={theme}>
-			<AppContainer />	
-		</ThemeProvider>
+    <ThemeProvider theme={themes[mode]}>
+      <GlobalStyle />
+      <ReplayProvider>
+        <AppContainer themeMode={mode} onToggleTheme={toggle} />
+      </ReplayProvider>
+    </ThemeProvider>
   )
 }
 
-export default App;
+export default App

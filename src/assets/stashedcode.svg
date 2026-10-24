@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 12 68 68" role="img" aria-label="stashedcode">
+  <!-- Favicon: stacked-layers mark, overlapped (16px step), transparent.
+       viewBox is tightened to the artwork bounds so it fills its box. -->
+  <g transform="translate(4,4)">
+    <path d="M40 8 L74 26 L40 44 L6 26 Z" fill="#429cef"/>
+    <path d="M40 24 L74 42 L40 60 L6 42 Z" fill="#2b6fb0"/>
+    <path d="M40 40 L74 58 L40 76 L6 58 Z" fill="#1e3a66"/>
+  </g>
+</svg>
