@@ -39,7 +39,7 @@ pnpm start        # run the dev server at http://localhost:3000
 | `pnpm start`   | Start the development server with hot reload             |
 | `pnpm build`   | Produce an optimized production build in `build/`        |
 | `pnpm test`    | Run the test suite (add `-- --watchAll=false` for CI)    |
-| `pnpm deploy`  | Build and publish `build/` to GitHub Pages via `gh-pages`|
+| `pnpm run deploy` | Build and publish `build/` to GitHub Pages via `gh-pages` |
 
 ## Project structure
 
@@ -91,9 +91,17 @@ The social preview image is `public/og-image.png` (1200×630).
 
 ## Deployment
 
-The site is hosted on GitHub Pages. `pnpm deploy` runs the production build —
-which prerenders via `postbuild` — and pushes `build/` to the `gh-pages` branch:
+The site is hosted on GitHub Pages. `pnpm run deploy` runs the production
+build — which prerenders via `postbuild` — and pushes `build/` to the
+`gh-pages` branch:
 
 ```bash
-git checkout master && pnpm deploy
+git checkout master && pnpm run deploy
 ```
+
+> Use `pnpm run deploy`, not `pnpm deploy`. pnpm has a built-in `deploy`
+> command that shadows the package.json script (it errors with
+> `ERR_PNPM_CANNOT_DEPLOY`); `pnpm run deploy` always runs the script.
+
+`gh-pages` is build output managed by the `gh-pages` tool — never edit it or
+merge `master` into it by hand; each deploy rebuilds and replaces it.

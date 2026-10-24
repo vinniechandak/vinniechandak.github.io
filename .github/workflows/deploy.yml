@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+# Publish the prerendered build to the gh-pages branch on every push to master
+# (i.e. whenever a PR is merged into master). Can also be run manually.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# Allow the workflow to push to the gh-pages branch.
+permissions:
+  contents: write
+
+# Never run two deploys at once; cancel an in-progress one if a newer push lands.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # react-snap drives a bundled Chromium (via puppeteer) to prerender the
+      # app. On Ubuntu runners Chromium needs a few shared libraries present.
+      - name: Install Chromium system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
+            libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+            libgbm1 libasound2 libpango-1.0-0 libcairo2
+
+      # pnpm build runs the `postbuild` react-snap prerender. CI=true makes
+      # CRA treat lint warnings as non-fatal only where configured; it also
+      # keeps the build non-interactive.
+      - name: Build (with prerender)
+        run: pnpm build
+        env:
+          CI: "true"
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          publish_branch: gh-pages
+          # GitHub user-page sites serve from the domain root; no CNAME here.
+          commit_message: "Deploy: ${{ github.event.head_commit.message }}"
