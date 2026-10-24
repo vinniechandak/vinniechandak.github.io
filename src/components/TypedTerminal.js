@@ -5,9 +5,9 @@ import CommandLine from "./CommandLine"
 import useTypedOnView from "../hooks/useTypedOnView"
 import { useReplay } from "./ReplayContext"
 
-// Children stay mounted in the DOM at all times (so crawlers, no-JS visitors,
-// and the react-snap prerender always see the content) and are only visually
-// faded in once the command has "typed" out.
+// Children stay mounted in the DOM at all times (so crawlers and no-JS
+// visitors always see the content) and are only visually faded in once the
+// command has "typed" out.
 const Reveal = styled.div`
   opacity: ${props => (props.$show ? 1 : 0)};
   transition: opacity 0.35s ease;
