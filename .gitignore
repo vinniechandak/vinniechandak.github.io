@@ -1,9 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
+.pnp.*
+
+# pnpm
+.pnpm-store/
+.pnpm_store/
+.pnpm-debug.log*
 
 # testing
 /coverage
@@ -11,8 +17,21 @@
 # production
 /build
 
+# AI assistant / tooling
+.kiro/
+.cursor/
+.claude/
+.codex/
+.aider*
+.continue/
+.windsurf/
+.github/copilot-instructions.md
+.vscode/
+*.local
+
 # misc
 .DS_Store
+*.swp
 .env.local
 .env.development.local
 .env.test.local

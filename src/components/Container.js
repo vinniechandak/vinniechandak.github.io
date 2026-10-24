@@ -8,23 +8,28 @@ import Skills from "./Skills"
 import Experience from "./Experience"
 import Contact from "./Contact"
 
-const ContentWrapper = styled.div`
-	padding: 20px;
-	min-height: 100vh;
-  transition: all 0.3s;
+const Main = styled.main`
+  flex: 1;
+  min-width: 0;
+  padding: 0 clamp(16px, 4vw, 48px) 48px;
 `
 
-const Container = ({ isVisible, setIsVisible }) => {
+const Container = ({ isOpen, setIsOpen, themeMode, onToggleTheme }) => {
   return (
-    <ContentWrapper>
-      <Navigationbar isVisible={isVisible} setIsVisible={setIsVisible} />
+    <Main>
+      <Navigationbar
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        themeMode={themeMode}
+        onToggleTheme={onToggleTheme}
+      />
       <Home />
       <About />
       <Education />
       <Skills />
       <Experience />
       <Contact />
-    </ContentWrapper>
+    </Main>
   )
 }
 
