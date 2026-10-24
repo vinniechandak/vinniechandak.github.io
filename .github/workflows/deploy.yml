@@ -33,33 +33,18 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
 
-      # Use a current, maintained Chrome for prerendering instead of
-      # react-snap's ancient bundled Chromium. This is what makes the
-      # prerender reliable on modern runners.
-      - name: Setup Chrome
-        id: setup-chrome
-        uses: browser-actions/setup-chrome@v1
-        with:
-          install-dependencies: true
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # The compile MUST succeed — this is the real build.
-      # We skip the `postbuild` hook here so the prerender can't fail it.
       - name: Build
         run: pnpm exec react-scripts build
         env:
           CI: "true"
-
-      # Prerender with react-snap, pointed at the Chrome installed above.
-      # Best-effort: if it ever fails, we still publish the (un-prerendered)
-      # build rather than failing the whole deploy.
-      - name: Prerender (best-effort)
-        continue-on-error: true
-        run: pnpm exec react-snap
-        env:
-          PUPPETEER_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+          # Disable CRA's bundled ESLint webpack plugin during the build.
+          # Under pnpm's symlinked layout it resolves eslint-config-react-app
+          # via two paths and falsely reports `Plugin "react" was conflicted`,
+          # which fails the build. Linting still runs in-editor / separately.
+          DISABLE_ESLINT_PLUGIN: "true"
 
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4

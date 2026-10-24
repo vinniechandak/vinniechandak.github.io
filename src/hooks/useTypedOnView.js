@@ -45,6 +45,10 @@ export default function useTypedOnView(command, speed = 70) {
       return
     }
 
+    // threshold: 0 fires as soon as any part of the element enters the
+    // viewport. A percentage threshold (e.g. 0.25) never fires for sections
+    // taller than the viewport — common on small screens — leaving the
+    // content stuck at opacity: 0. rootMargin starts it a little early.
     const observer = new IntersectionObserver(
       entries => {
         if (entries.some(e => e.isIntersecting)) {
@@ -52,10 +56,18 @@ export default function useTypedOnView(command, speed = 70) {
           observer.disconnect()
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     )
     observer.observe(el)
-    return () => observer.disconnect()
+
+    // Safety net: if the observer never fires for any reason, reveal the
+    // content anyway so it can't stay permanently hidden.
+    const fallback = setTimeout(() => setStarted(true), 2500)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(fallback)
+    }
   }, [reduced, started, token])
 
   // Type the command out once started.

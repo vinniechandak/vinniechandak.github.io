@@ -1,0 +1,19 @@
+# pnpm-only settings (moved out of .npmrc so `npm` doesn't warn about
+# unknown config keys when nvm runs `npm config get prefix` at shell start).
+
+# Single-package repo: the root is the only package. pnpm 9 requires this
+# field once pnpm-workspace.yaml exists.
+packages:
+  - "."
+
+# react-scripts (CRA) expects a flat node_modules layout.
+# Hoist dependencies so its webpack/babel plugin resolution works under pnpm.
+nodeLinker: hoisted
+shamefullyHoist: true
+
+# Run pre/post lifecycle scripts (e.g. postbuild -> react-snap prerender).
+enablePrePostScripts: true
+
+# NOTE: dependency `overrides` for the Dependabot fixes live in package.json
+# under the "pnpm" key, because pnpm 9 reads overrides from there (reading
+# overrides from this file is a pnpm 10 feature).
