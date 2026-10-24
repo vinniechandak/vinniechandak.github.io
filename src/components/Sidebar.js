@@ -1,111 +1,258 @@
 import React from "react"
 import styled from "styled-components"
+import { FiFolder, FiGithub, FiLinkedin, FiSun, FiMoon } from "react-icons/fi"
+import { SiStackoverflow } from "react-icons/si"
+import stashedcodeIcon from "../assets/stashedcode.svg"
+import { useReplay } from "./ReplayContext"
 
-const Nav = styled.nav`
-  min-width: 250px;
-  max-width: 250px;
-  background: ${props => props.theme.colours.sidebar.background};
-  color: ${props => props.theme.colours.sidebar.text};
-  transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
-  transform-origin: bottom left;
-  margin-left: ${props => (props.isVisible ? `-250px` : `0px`)};
-  transform: ${props =>
-    props.isVisible ? `rotateY(100deg)` : `rotateY(0deg)`};
+const Aside = styled.aside`
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  width: ${props => props.theme.layout.sidebarWidth};
+  min-width: ${props => props.theme.layout.sidebarWidth};
+  height: 100vh;
+  background: ${props => props.theme.colours.chrome};
+  border-right: 1px solid ${props => props.theme.colours.border};
+
+  @media (max-width: 860px) {
+    position: fixed;
+    z-index: 30;
+    transition: transform 0.25s ease;
+    transform: translateX(${props => (props.$open ? "0" : "-100%")});
+  }
 `
 
-const Title = styled.h3`
-	text-align: center;
+const Header = styled.div`
+  padding: 20px 18px 14px;
+  border-bottom: 1px solid ${props => props.theme.colours.border};
 `
 
-const SidebarHeader = styled.div`
-  padding: 20px;
-  background: ${props => props.theme.colours.sidebar.background};
+const Name = styled.a`
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: ${props => props.theme.colours.text};
+
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.colours.path};
+  }
 `
 
-const SidebarComponents = styled.ul`
-  padding: 20px 0;
-  border-bottom: 1px solid ${props => props.theme.colours.sidebar.border};
+const Role = styled.div`
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: ${props => props.theme.colours.textMuted};
 `
 
-const MenuItem = styled.li`
-  text-align: center;
+const TreeLabel = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px 6px;
+  font-size: 0.78rem;
+  color: ${props => props.theme.colours.textFaint};
 `
 
-const Paragraph = styled.p`
-  color: ${props => props.theme.colours.sidebar.text};
-  padding: 10px;
+const Tree = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0 10px;
+  flex: 1;
 `
 
-const ListAnchor = styled.a`
-  padding: 10px;
-  font-size: 1.1em;
+const FileItem = styled.li`
+  margin: 1px 0;
+`
+
+const FileLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 24px;
+  border-radius: ${props => props.theme.radius.sm};
+  color: ${props => props.theme.colours.textMuted};
+  font-size: 0.88rem;
+
+  &:hover,
+  &:focus {
+    background: ${props => props.theme.colours.surfaceRaised};
+    color: ${props => props.theme.colours.text};
+  }
+
+  .ext {
+    color: ${props => props.theme.colours.textFaint};
+  }
+`
+
+const Footer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 18px;
+  border-top: 1px solid ${props => props.theme.colours.border};
+`
+
+const Socials = styled.div`
+  display: flex;
+  gap: 14px;
+  font-size: 1.15rem;
+`
+
+const SocialLink = styled.a`
+  color: ${props => props.theme.colours.textMuted};
+  display: inline-flex;
+  align-items: center;
+
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.colours.prompt};
+  }
+`
+
+const SocialImg = styled.img`
+  width: 1.25rem;
+  height: 1.25rem;
   display: block;
-  &:hover {
-    color: ${props => props.theme.colours.sidebar.background};
-    background: ${props => props.theme.colours.sidebar.text};
+  opacity: 0.85;
+
+  ${SocialLink}:hover &,
+  ${SocialLink}:focus & {
+    opacity: 1;
   }
 `
 
-const SocialGroup = styled.ul`
-  grid-auto-flow: column;
-  display: grid;
-  margin: 50px 20px 0px 20px;
-`
+const ThemeToggle = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: ${props => props.theme.colours.textMuted};
+  background: ${props => props.theme.colours.surface};
+  border: 1px solid ${props => props.theme.colours.border};
+  border-radius: ${props => props.theme.radius.md};
+  cursor: pointer;
+  font-size: 1rem;
 
-const SocialList = styled.li`
-  text-align: center;
-  &:hover {
-    color: ${props => props.theme.colours.sidebar.background};
-    background: ${props => props.theme.colours.sidebar.text};
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.colours.prompt};
+    border-color: ${props => props.theme.colours.prompt};
   }
 `
 
-const SocialAnchor = styled.a`
-  font-size: 2.5rem;
-`
+// Each section maps to a pseudo-file. The name/extension split lets us color
+// the extension like an editor would.
+const files = [
+  { id: "home", name: "readme", ext: ".md" },
+  { id: "about", name: "about", ext: ".md" },
+  { id: "education", name: "education", ext: ".md" },
+  { id: "skills", name: "skills", ext: ".json" },
+  { id: "experience", name: "experience", ext: ".log" },
+  { id: "contact", name: "contact", ext: ".sh" },
+]
 
-const menuItems = {
-  home: "Home",
-  about: "About",
-  education: "Education & Certifications",
-  skills: "Skills",
-  experience: "Experience",
-  contact: "Contact",
-}
+const socials = [
+  {
+    key: "linkedin",
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/vinodchandak321",
+    Icon: FiLinkedin,
+  },
+  {
+    key: "github",
+    label: "GitHub",
+    href: "https://www.github.com/vinniechandak",
+    Icon: FiGithub,
+  },
+  {
+    key: "stackoverflow",
+    label: "Stack Overflow",
+    href: "https://stackoverflow.com/users/2690184/vinod-chandak",
+    Icon: SiStackoverflow,
+  },
+  {
+    key: "stashedcode",
+    label: "Stashedcode",
+    href: "https://stashedcode.com/",
+    iconSrc: stashedcodeIcon,
+  },
+]
 
-const socialMedias = {
-  linkedin: "https://www.linkedin.com/in/vinod-chandak-49b85354",
-  github: "https://www.github.com/vinniechandak",
-  "stack-overflow": "https://stackoverflow.com/users/2690184/vinod-chandak",
-}
+const Sidebar = ({ isOpen, onNavigate, themeMode, onToggleTheme }) => {
+  const nextMode = themeMode === "dark" ? "light" : "dark"
+  const replayCtx = useReplay()
 
-const Sidebar = ({ isVisible }) => {
+  const handleNavClick = id => {
+    if (onNavigate) onNavigate()
+    if (replayCtx) {
+      // Let the browser jump to the section first, then replay its typing.
+      requestAnimationFrame(() => replayCtx.requestReplay(id))
+    }
+  }
+
   return (
-		<Nav id="sidebar" 
-			className={isVisible ? "active" : ""}
- 			isVisible={isVisible}>
-      <SidebarHeader>
-        <Title>Vinod Chandak</Title>
-      </SidebarHeader>
+    <Aside id="sidebar" $open={isOpen} aria-label="Site navigation">
+      <Header>
+        <Name href="#home" onClick={() => handleNavClick("home")}>
+          vinod-chandak
+        </Name>
+        <Role>Forward Deployed AI Engineer</Role>
+      </Header>
 
-      <SidebarComponents className="list-unstyled">
-        <Paragraph></Paragraph>
-        {Object.keys(menuItems).map(key => (
-          <MenuItem key={key}>
-            <ListAnchor href={"#" + key}>{menuItems[key]}</ListAnchor>
-          </MenuItem>
+      <TreeLabel>
+        <FiFolder aria-hidden="true" /> ~/portfolio
+      </TreeLabel>
+
+      <Tree>
+        {files.map(f => (
+          <FileItem key={f.id}>
+            <FileLink href={"#" + f.id} onClick={() => handleNavClick(f.id)}>
+              {f.name}
+              <span className="ext">{f.ext}</span>
+            </FileLink>
+          </FileItem>
         ))}
-      </SidebarComponents>
-      <SocialGroup className="list-unstyled">
-        {Object.keys(socialMedias).map(key => (
-          <SocialList key={key}>
-            <SocialAnchor target="_blank" href={socialMedias[key]}>
-              <i className={"fa fa-" + key} />
-            </SocialAnchor>
-          </SocialList>
-        ))}
-      </SocialGroup>
-    </Nav>
+      </Tree>
+
+      <Footer>
+        <Socials>
+          {socials.map(({ key, label, href, Icon, iconSrc }) => (
+            <SocialLink
+              key={key}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+            >
+              {iconSrc ? (
+                <SocialImg src={iconSrc} alt="" aria-hidden="true" />
+              ) : (
+                <Icon aria-hidden="true" />
+              )}
+            </SocialLink>
+          ))}
+        </Socials>
+        {onToggleTheme ? (
+          <ThemeToggle
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={`Switch to ${nextMode} theme`}
+            title={`Switch to ${nextMode} theme`}
+          >
+            {themeMode === "dark" ? (
+              <FiSun aria-hidden="true" />
+            ) : (
+              <FiMoon aria-hidden="true" />
+            )}
+          </ThemeToggle>
+        ) : null}
+      </Footer>
+    </Aside>
   )
 }
 
