@@ -7,6 +7,8 @@ navigated through a file-tree sidebar.
 
 Live site: [vinniechandak.github.io](https://vinniechandak.github.io)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e76f05bc-f2f5-4285-8daa-ecc8150e0d2a/deploy-status)](https://app.netlify.com/sites/vinodchandak/deploys)
+
 ## Tech stack
 
 - **React 19** (Create React App / `react-scripts`)
@@ -90,4 +92,8 @@ The social preview image is `public/og-image.png` (1200×630).
 ## Deployment
 
 The site is hosted on GitHub Pages. `pnpm deploy` runs the production build —
-which prerenders via `postbuild` — and pushes `build/` to the `gh-pages` branch.
+which prerenders via `postbuild` — and pushes `build/` to the `gh-pages` branch:
+
+```bash
+git checkout master && pnpm deploy
+```
