@@ -1,19 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.e9ee35c4.css",
-    "main.js": "/static/js/main.7aae630d.js",
-    "static/media/fontawesome-webfont.svg?v=4.7.0": "/static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
-    "static/media/home.jpeg": "/static/media/home.93444758762b61c668ff.jpeg",
-    "static/media/fontawesome-webfont.eot": "/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
-    "static/media/fontawesome-webfont.ttf?v=4.7.0": "/static/media/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
-    "static/media/fontawesome-webfont.woff?v=4.7.0": "/static/media/fontawesome-webfont.f691f37e57f04c152e23.woff",
-    "static/media/fontawesome-webfont.woff2?v=4.7.0": "/static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
+    "main.css": "/static/css/main.31d6cfe0.css",
+    "main.js": "/static/js/main.73460965.js",
     "index.html": "/index.html",
-    "main.e9ee35c4.css.map": "/static/css/main.e9ee35c4.css.map",
-    "main.7aae630d.js.map": "/static/js/main.7aae630d.js.map"
+    "static/media/stashedcode.svg": "/static/media/stashedcode.43e9fc8325ad849f18c5328db91e0946.svg",
+    "main.73460965.js.map": "/static/js/main.73460965.js.map"
   },
   "entrypoints": [
-    "static/css/main.e9ee35c4.css",
-    "static/js/main.7aae630d.js"
+    "static/css/main.31d6cfe0.css",
+    "static/js/main.73460965.js"
   ]
 }
