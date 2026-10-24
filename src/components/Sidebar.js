@@ -26,13 +26,13 @@ const Aside = styled.aside`
 `
 
 const Header = styled.div`
-  padding: 20px 18px 14px;
+  padding: 24px 20px 18px;
   border-bottom: 1px solid ${props => props.theme.colours.border};
 `
 
 const Name = styled.a`
   display: inline-block;
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: ${props => props.theme.colours.text};
 
@@ -43,39 +43,43 @@ const Name = styled.a`
 `
 
 const Role = styled.div`
-  margin-top: 2px;
-  font-size: 0.78rem;
+  margin-top: 4px;
+  font-size: 0.92rem;
   color: ${props => props.theme.colours.textMuted};
 `
 
 const TreeLabel = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 18px 6px;
-  font-size: 0.78rem;
+  gap: 9px;
+  padding: 18px 20px 8px;
+  font-size: 0.9rem;
   color: ${props => props.theme.colours.textFaint};
+
+  svg {
+    font-size: 1.05rem;
+  }
 `
 
 const Tree = styled.ul`
   list-style: none;
   margin: 0;
-  padding: 0 10px;
+  padding: 0 12px;
   flex: 1;
 `
 
 const FileItem = styled.li`
-  margin: 1px 0;
+  margin: 2px 0;
 `
 
 const FileLink = styled.a`
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px 6px 24px;
+  padding: 9px 12px 9px 26px;
   border-radius: ${props => props.theme.radius.sm};
   color: ${props => props.theme.colours.textMuted};
-  font-size: 0.88rem;
+  font-size: 1.02rem;
 
   &:hover,
   &:focus {
@@ -92,14 +96,14 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px 18px;
+  padding: 16px 20px 20px;
   border-top: 1px solid ${props => props.theme.colours.border};
 `
 
 const Socials = styled.div`
   display: flex;
-  gap: 14px;
-  font-size: 1.15rem;
+  gap: 16px;
+  font-size: 1.35rem;
 `
 
 const SocialLink = styled.a`
@@ -114,8 +118,8 @@ const SocialLink = styled.a`
 `
 
 const SocialImg = styled.img`
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.4rem;
+  height: 1.4rem;
   display: block;
   opacity: 0.85;
 
@@ -129,14 +133,14 @@ const ThemeToggle = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   color: ${props => props.theme.colours.textMuted};
   background: ${props => props.theme.colours.surface};
   border: 1px solid ${props => props.theme.colours.border};
   border-radius: ${props => props.theme.radius.md};
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.15rem;
 
   &:hover,
   &:focus {
